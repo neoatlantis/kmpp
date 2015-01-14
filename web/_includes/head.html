@@ -10,10 +10,13 @@
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
     {% if page.script %}
-    <script data-main="{{ page.script }}" src="script/require.js"></script>
+    <script data-main="{{ page.script }}" src="/script/require.js"></script>
     <script>
-        requirejs.config({
-            
+        require.config({
+            baseUrl: '/script',
+            paths: {
+                'jquery': 'ext/jquery',
+            },
         });
     </script>
     {% endif %}
