@@ -18,7 +18,7 @@ var httpServer = http.createServer(function(req, res){
     var pathname = requrl.pathname;
     if(pathname.slice(-1) == '/') pathname += 'index.html';
     fs.readFile(
-        './web' + pathname, // TODO security risk
+        './web/_site' + pathname, // TODO security risk
         function(err, data){
             if(err){
                 res.writeHead(404);
