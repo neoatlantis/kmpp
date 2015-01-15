@@ -21,6 +21,7 @@ function page(){
         var data = e.originalEvent.data;
         // TODO security check of data origin !!!
         var name = data.name, data = data.data;
+
         if(undefined !== onCallbacks[name])
             for(var i in onCallbacks[name]) onCallbacks[name][i](data);
         if(undefined !== onceCallbacks[name]){

@@ -16,15 +16,15 @@ function session(){
     };
 
     this.logout = function(){
-        new kmppPage().broadcast('session.logout');
         localStorage.setItem('credential.username', false);
         localStorage.setItem('credential.password', false);
+        new kmppPage().broadcast('session.logout');
     };
 
     this.login = function(username, password){
-        new kmppPage().broadcast('session.login');
         localStorage.setItem('credential.username', username);
         localStorage.setItem('credential.password', password);
+        new kmppPage().broadcast('session.login');
     };
 
     return this;

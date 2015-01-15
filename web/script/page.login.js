@@ -2,6 +2,11 @@ require(['jquery', 'kmpp'], function($, kmpp){
 $(function(){
 //////////////////////////////////////////////////////////////////////////////
 
+if(kmpp.session.isLoggedIn()) return kmpp.page.redirect('/');
+kmpp.page.on('session.login', function(){
+    kmpp.page.redirect('/');
+});
+
 $('input').on('keypress', function(){
     $('.error').hide();
 });
@@ -15,7 +20,7 @@ $('button[name="login"]').click(function(){
         return;
     };
 
-
+    kmpp.session.login(username, password);
 });
 
 //////////////////////////////////////////////////////////////////////////////
