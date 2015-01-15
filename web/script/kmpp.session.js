@@ -18,13 +18,14 @@ function session(){
     this.logout = function(){
         localStorage.removeItem('credential.username');
         localStorage.removeItem('credential.password');
-        new kmppPage().broadcast('session.logout');
+        new kmppPage().emit('session.logout');
     };
 
     this.login = function(username, password){
         localStorage.setItem('credential.username', username);
         localStorage.setItem('credential.password', password);
-        new kmppPage().broadcast('session.login');
+        new kmppPage().emit('session.login');
+        new kmppPage().redirect('/');
     };
 
     return this;

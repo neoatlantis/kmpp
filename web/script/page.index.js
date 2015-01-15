@@ -2,7 +2,6 @@ function startXMPPConnector(kmpp){
     var xmpp = new kmpp.xmpp();
 
     kmpp.page.on('command.xmpp.login', function(){
-        alert('do login');
         xmpp.login(
             localStorage.getItem('credential.username'),
             localStorage.getItem('credential.password')
@@ -10,8 +9,33 @@ function startXMPPConnector(kmpp){
     });
 
     kmpp.page.on('command.xmpp.existence', function(){
-        kmpp.page.broadcast('answer.xmpp.existence');
+        kmpp.page.emit('answer.xmpp.existence');
     });
+};
+
+//////////////////////////////////////////////////////////////////////////////
+
+function bindStatusDisplay(kmpp){
+    $('.status-text').hide();
+    function getCallback(name){
+        return function(){
+            $('.status-text').hide();
+            $('#status-' + name).show();
+        };
+    };
+    var list = [
+        'connecting',
+        'connfail',
+        'authenticating',
+        'authfail',
+        'connected',
+        'disconnected',
+        'disconnecting',
+        'attached', 
+        'error'
+    ];
+    for(var i in list)
+        kmpp.page.on('update.xmpp.' + list[i], getCallback(list[i]));
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -23,23 +47,20 @@ require([
     $,
     kmpp
 ){ $(function(){
-    $('.status-text').hide();
+    if(!kmpp.session.isLoggedIn()) return kmpp.page.redirect('/login/');
 
     var xmppExisted = false;
     kmpp.page.on('answer.xmpp.existence', function(){
         xmppExisted = true;
     });
     setTimeout(function(){
-        if(!xmppExisted){
-            new startXMPPConnector(kmpp);
-            kmpp.page.broadcast('command.xmpp.login');
-            kmpp.page.hashtag('');
-        } else if(!kmpp.session.isLoggedIn()){
-            return kmpp.page.redirect('/login/');
-        };
-    }, 100);
-    kmpp.page.broadcast('command.xmpp.existence');
+        if(xmppExisted) return;
+        new startXMPPConnector(kmpp);
+        kmpp.page.emit('command.xmpp.login');
+        kmpp.page.hashtag('');
+    }, 10);
+    kmpp.page.emit('command.xmpp.existence');
 
-
+    bindStatusDisplay(kmpp);
 
 }); });

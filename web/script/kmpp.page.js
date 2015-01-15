@@ -46,13 +46,13 @@ function page(){
     };
     $(window).on('storage onstorage', onStorage);
 
-    this.broadcast = function(name, data){
+    this.emit = function(name, data){
+        console.log('Send event [' + name + ']', data);
         localStorage.setItem('crosstab', JSON.stringify({
             name: name,
             data: data,
             id: new Date().getTime(), // TODO MORE PRECISE
         }));
-        console.log('Sent event [' + name + ']', data);
         onStorage();
     };
 
