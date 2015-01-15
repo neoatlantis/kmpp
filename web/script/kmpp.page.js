@@ -24,7 +24,8 @@ function page(){
     // broadcasting system
 
     var onCallbacks = {}, onceCallbacks = {};
-    var lastStorageEventID = 0;
+    var lastStorageEventID = null;
+    var pageIdentifyID = String(Math.random()), pageEventCounter = 0;
     function onStorage(){
         try{
             var data = JSON.parse(localStorage.getItem('crosstab'));
@@ -33,7 +34,7 @@ function page(){
         };
         
         var name = data.name, payload = data.data, eventID = data.id;
-        if(eventID == lastStorageEventID) return;
+        if(eventID === lastStorageEventID) return;
         lastStorageEventID = eventID;
         console.log('Received event [' + name + ']', payload);
 
@@ -51,7 +52,7 @@ function page(){
         localStorage.setItem('crosstab', JSON.stringify({
             name: name,
             data: data,
-            id: new Date().getTime(), // TODO MORE PRECISE
+            id: pageIdentifyID + '-' + String(pageEventCounter++),
         }));
         onStorage();
     };
