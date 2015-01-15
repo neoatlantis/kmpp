@@ -1,10 +1,57 @@
 ---
-layout: default
 script: page.index
 ---
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<div class="home">
+    <title>{{ site.title }}</title>
+    <meta name="description" content="{{ site.description }}">
 
-  <h1 class="page-heading">Posts</h1>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/script/ext/strophe.js"></script>
+    <script data-main="{{ page.script }}" src="/script/require.js"></script>
+    <script>
+        require.config({
+            baseUrl: '/script',
+            paths: {
+                'jquery': 'ext/jquery',
+            },
+        });
+    </script>
+</head>
+<body>
+<div id="nojs-display">
+Your browser does not support JavaScript or it's been disabled.
+JavaScript is critical to this application. Please enable it.
+</div>
+<div id="js-display">
+
+
+    <div class="right-fixed">
+        <div class="connection-status">
+            <div id="status-connecting" class="status-text"></div>
+            <div id="status-connfail" class="status-text"></div>
+            <div id="status-authenticating" class="status-text"></div>
+            <div id="status-authfail" class="status-text"></div>
+            <div id="status-connected" class="status-text"></div>
+            <div id="status-disconnected" class="status-text"></div>
+            <div id="status-disconnecting" class="status-text"></div>
+            <div id="status-attached" class="status-text"></div>
+            <div id="status-error" class="status-text"></div>
+        </div>
+        <div class="contact-list">
+        </div>
+    </div>
+
 
 </div>
+<script>
+    document.getElementById('nojs-display').style.display = "none";
+    document.getElementById('js-display').style.display = "inline";
+</script>
+</body>
+</html>

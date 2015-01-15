@@ -24,24 +24,36 @@ function page(){
     // broadcasting system
 
     var onCallbacks = {}, onceCallbacks = {};
-    $(window).on('message', function(e){
-        var data = e.originalEvent.data;
-        // TODO security check of data origin !!!
-        var name = data.name, data = data.data;
+    var lastStorageEventID = 0;
+    function onStorage(){
+        try{
+            var data = JSON.parse(localStorage.getItem('crosstab'));
+        } catch(e){
+            return;
+        };
+        
+        var name = data.name, payload = data.data, eventID = data.id;
+        if(eventID == lastStorageEventID) return;
+        lastStorageEventID = eventID;
+        console.log('Received event [' + name + ']', payload);
 
         if(undefined !== onCallbacks[name])
-            for(var i in onCallbacks[name]) onCallbacks[name][i](data);
+            for(var i in onCallbacks[name]) onCallbacks[name][i](payload);
         if(undefined !== onceCallbacks[name]){
-            for(var i in onceCallbacks[name]) onceCallbacks[name][i](data);
+            for(var i in onceCallbacks[name]) onceCallbacks[name][i](payload);
             delete onceCallbacks[name];
         };
-    });
+    };
+    $(window).on('storage onstorage', onStorage);
 
     this.broadcast = function(name, data){
-        window.postMessage({
+        localStorage.setItem('crosstab', JSON.stringify({
             name: name,
-            data: data, // XXX SECURITY RISK
-        }, '*', []); // XXX SECURITY RISK
+            data: data,
+            id: new Date().getTime(), // TODO MORE PRECISE
+        }));
+        console.log('Sent event [' + name + ']', data);
+        onStorage();
     };
 
     this.on = function(name, callback){

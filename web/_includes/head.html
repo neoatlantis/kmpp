@@ -10,13 +10,13 @@
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
     {% if page.script %}
+    <script src="/script/ext/strophe.js"></script>
     <script data-main="{{ page.script }}" src="/script/require.js"></script>
     <script>
         require.config({
             baseUrl: '/script',
             paths: {
                 'jquery': 'ext/jquery',
-                'strophe': 'ext/strophe',
             },
         });
     </script>
