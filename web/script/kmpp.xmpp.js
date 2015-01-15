@@ -4,12 +4,23 @@
  * The XMPP class is only used in `index.html`. Exported is not a factory
  * function.
  */
-define([
-    'kmpp.page',
-], function(
-    kmppPage
-){
+var xepIncludes = [
+    '0083',
+];
+
+
+var depList = ['kmpp.page', 'jquery'];
+for(var i in xepIncludes) depList.push('xep/' + xepIncludes[i]);
+
+define(depList, function(){
 //////////////////////////////////////////////////////////////////////////////
+
+var kmppPage = arguments[0];
+var $ = arguments[1];
+var xepStart = 2;
+var xeps = {};
+for(var i=0; i<xepIncludes.length; i++) 
+    xeps[xepIncludes[i]] = arguments[i + xepStart];
 
 function xmpp(){
     var self = this;
@@ -23,10 +34,16 @@ function xmpp(){
 
     var believedCredential = false;
     var autoReconnectCounter = 0, autoReconnectMax = 5;
+    var currentConnectionStatus = -1;
+
+    this.getStatus = function(){
+        return currentConnectionStatus;
+    };
 
     this.login = function(username, password){
         console.log('Login to [' + username + ']');
         connection.connect(username, password, function(statusCode, err){
+            currentConnectionStatus = statusCode;
             switch(statusCode){
                 case Strophe.Status.CONNECTING:
                     kp.emit('update.xmpp.connecting');
@@ -65,6 +82,35 @@ function xmpp(){
         });
     };
 
+    this.send = function(v){
+        connection.send(v);
+    };
+
+    this.on = function(match, callback){
+        var ref = connection.addHandler(
+            function(v){ callback($(v)); return true; },
+            match.ns,
+            match.name,
+            match.type,
+            match.id,
+            match.from,
+            match.options
+        );
+        return function remove(){ connection.deleteHandler(ref); };
+    };
+
+    this.once = function(match, callback){
+        var ref = connection.addHandler(
+            function(v){ callback($(v)); return false; },
+            match.ns,
+            match.name,
+            match.type,
+            match.id,
+            match.from,
+            match.options
+        );
+        return function remove(){ connection.deleteHandler(ref); };
+    };
 
     // auto reconnect for at most autoReconnectMax times
     kp.on('update.xmpp.disconnected', function(){
@@ -80,6 +126,12 @@ function xmpp(){
         }, (autoReconnectCounter + 1) * 5000);
     })
 
+    // load xeps
+    var loadedXEPs = {};
+    for(var i in xeps){
+        console.log('Load XEP-' + i);
+        loadedXEPs[i] = new xeps[i](self, kp);
+    };
 
     return this;
 };
