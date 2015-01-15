@@ -5,10 +5,8 @@
  * function.
  */
 define([
-    'crosstab',
     'strophe'
 ], function(
-    crosstab,
     strophe
 ){
 //////////////////////////////////////////////////////////////////////////////

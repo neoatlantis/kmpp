@@ -5,7 +5,7 @@
  * informs the XMPP to do.
  */
 
-define(['crosstab'], function(crosstab){
+define(['kmpp.page'], function(kmppPage){
 //////////////////////////////////////////////////////////////////////////////
 
 function session(){
@@ -16,21 +16,21 @@ function session(){
     };
 
     this.logout = function(){
+        new kmppPage().broadcast('session.logout');
         localStorage.setItem('credential.username', false);
         localStorage.setItem('credential.password', false);
-        crosstab.broadcast('session.logout');
     };
 
     this.login = function(username, password){
+        new kmppPage().broadcast('session.login');
         localStorage.setItem('credential.username', username);
         localStorage.setItem('credential.password', password);
-        crosstab.broadcast('session.login');
     };
 
     return this;
 };
 
-return new session();
+return session;
 
 //////////////////////////////////////////////////////////////////////////////
 });

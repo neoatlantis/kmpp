@@ -8,8 +8,8 @@ define([
     xmpp
 ){
     return {
-        session: session,
-        page: page,
+        session: new session(),
+        page: new page(),
         xmpp: xmpp,
     };
 });

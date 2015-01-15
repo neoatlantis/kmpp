@@ -1,9 +1,6 @@
 require([
-    'jquery',
-
     'kmpp',
 ], function(
-    $,
     kmpp
 ){
     
