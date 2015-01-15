@@ -12,6 +12,13 @@ function page(){
         window.location = to;
     };
 
+    this.hashtag = function(v){
+        if(undefined === v)
+            return window.location.hash.slice(1);
+        else
+            window.location.hash = v;
+    };
+
 
     //------------------------------------------------------------------//
     // broadcasting system

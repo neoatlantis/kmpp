@@ -4,7 +4,7 @@ $(function(){
 
 if(kmpp.session.isLoggedIn()) return kmpp.page.redirect('/');
 kmpp.page.on('session.login', function(){
-    kmpp.page.redirect('/');
+    kmpp.page.redirect('/#login');
 });
 
 $('input').on('keypress', function(){

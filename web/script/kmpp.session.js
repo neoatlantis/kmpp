@@ -12,12 +12,12 @@ function session(){
     var self = this;
 
     this.isLoggedIn = function(){
-        return false === localStorage.getItem('credential.password');
+        return Boolean(localStorage.getItem('credential.password'));
     };
 
     this.logout = function(){
-        localStorage.setItem('credential.username', false);
-        localStorage.setItem('credential.password', false);
+        localStorage.removeItem('credential.username');
+        localStorage.removeItem('credential.password');
         new kmppPage().broadcast('session.logout');
     };
 

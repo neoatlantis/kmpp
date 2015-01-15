@@ -5,6 +5,6 @@ require([
 ){
     
     kmpp.session.logout();
-    kmpp.page.redirect('/');
+    kmpp.page.redirect('/login/');
 
 });
