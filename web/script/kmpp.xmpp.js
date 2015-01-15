@@ -21,6 +21,9 @@ function xmpp(){
 
     var kp = new kmppPage();
 
+    var believedCredential = false;
+    var autoReconnectCounter = 0, autoReconnectMax = 5;
+
     this.login = function(username, password){
         console.log('Login to [' + username + ']');
         connection.connect(username, password, function(statusCode, err){
@@ -38,6 +41,11 @@ function xmpp(){
                     kp.emit('update.xmpp.authfail');
                     break;
                 case Strophe.Status.CONNECTED:
+                    believedCredential = {
+                        username: username,
+                        password: password,
+                    };
+                    autoReconnectCounter = 0;
                     kp.emit('update.xmpp.connected');
                     break;
                 case Strophe.Status.DISCONNECTED:
@@ -56,6 +64,21 @@ function xmpp(){
             };
         });
     };
+
+
+    // auto reconnect for at most autoReconnectMax times
+    kp.on('update.xmpp.disconnected', function(){
+        if(autoReconnectCounter >= autoReconnectMax) return;
+        if(false === believedCredential) return;
+        console.log('(' + (autoReconnectCounter + 1) + '/' + autoReconnectMax + ') Reconnect retry.');
+        setTimeout(function(){
+            self.login(
+                believedCredential.username,
+                believedCredential.password
+            );
+            autoReconnectCounter += 1;
+        }, (autoReconnectCounter + 1) * 5000);
+    })
 
 
     return this;
