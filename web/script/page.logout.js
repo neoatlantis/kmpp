@@ -7,6 +7,7 @@ require([
     kmpp
 ){
     
+    kmpp.session.logout();
     kmpp.page.redirect('/');
 
 });

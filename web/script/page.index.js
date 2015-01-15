@@ -6,7 +6,6 @@ require([
     $,
     kmpp
 ){
-    
-    kmpp.page.redirect('/login/');
+    if(!kmpp.session.isLoggedIn()) return kmpp.page.redirect('/login/');
 
 });
