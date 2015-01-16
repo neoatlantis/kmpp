@@ -68,7 +68,7 @@ function bindRosterDisplay(kmpp){ // XEP-0083, see script/xep/0083.js
                         .attr('frameBorder', 0)
                         .attr('seamless', 'seamless')
                         .addClass('chat-window')
-                        .appendTo('body')
+                        .appendTo('.chat-windows')
                         .show()
                     ;
                     return;

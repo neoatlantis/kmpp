@@ -7,5 +7,5 @@ require([
 ){ $(function(){
     if(!kmpp.session.isLoggedIn()) return kmpp.page.redirect('/login/');
 
-
+    
 }); });
