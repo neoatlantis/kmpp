@@ -132,7 +132,35 @@ function xmpp(){
             );
             autoReconnectCounter += 1;
         }, (autoReconnectCounter + 1) * 5000);
-    })
+    });
+
+
+    // send presence
+    var defaultPresenceShow = 'chat';
+    function sendPresence(show, to, type){
+        console.log('Sending presence...');
+        if(['away', 'chat', 'dnd', 'xa'].indexOf(show) < 0)
+            show = defaultPresenceShow;
+
+        var pAttr = {};
+        if(undefined != to && undefined != type){
+            pAttr.to = to;
+            pAttr.type = type;
+        }
+        var stanza = $build('presence', pAttr) //to: to, type: type})
+            .c('show').t(show).up()
+            .c('status').t('').up()
+        ;
+        self.send(stanza);
+    };
+    kp.on('command.xmpp.presence', function(v){
+        if(v.show) defaultPresenceShow = v.show;
+        if(Strophe.Status.CONNECTED == self.getStatus())
+            sendPresence(v.show, v.to, v.type);
+    });
+    kp.on('update.xmpp.connection.connected', function(){
+        sendPresence();
+    });
 
     // load xeps
     var loadedXEPs = {};

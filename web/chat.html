@@ -1,0 +1,41 @@
+---
+script: page.chat
+---
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{{ site.title }}</title>
+    <link rel="stylesheet" href="/css/chat.css">
+    <script src="/script/ext/strophe.js"></script>
+    <script data-main="{{ page.script }}" src="/script/require.js"></script>
+    <script>
+        require.config({
+            baseUrl: '/script',
+            paths: {
+                'jquery': 'ext/jquery',
+            },
+        });
+    </script>
+</head>
+<body>
+<div id="nojs-display">
+Your browser does not support JavaScript or it's been disabled.
+JavaScript is critical to this application. Please enable it.
+</div>
+<div id="js-display">
+
+This is it.
+
+
+
+</div>
+<script>
+    document.getElementById('nojs-display').style.display = "none";
+    document.getElementById('js-display').style.display = "inline";
+</script>
+</body>
+</html>

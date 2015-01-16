@@ -34,6 +34,9 @@ define(['jquery'], function($){ return function(xmpp, page){
                 if(!jid) return;
                 roster[jid] = {};
 
+                roster[jid].subscription = $(this).attr('subscription');
+                roster[jid].name = $(this).attr('name') || jid;
+
                 var group = $(this).find('group').text();
                 if(group){
                     roster[jid].group = group;

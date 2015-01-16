@@ -49,6 +49,56 @@ function bindStatusDisplay(kmpp){
 
 //////////////////////////////////////////////////////////////////////////////
 
+function bindRosterDisplay(kmpp){ // XEP-0083, see script/xep/0083.js
+    function generateOnRosterItemClick(jid){
+        return function(e){
+            $('.chat-window').hide();
+            $('.roster-item').each(function(){
+                if(jid == $(this).attr('data-jid'))
+                    $(this).toggleClass('roster-item-active');
+                else
+                    $(this).removeClass('roster-item-active');
+            });
+            if($(this).hasClass('roster-item-active')){
+                var chatWindow = $('.chat-window[data-jid="' + jid + '"]');
+                if(chatWindow.length < 1){
+                    $('<iframe>')
+                        .attr('data-jid', jid)
+                        .attr('src', './chat.html#' + jid)
+                        .attr('frameBorder', 0)
+                        .attr('seamless', 'seamless')
+                        .addClass('chat-window')
+                        .appendTo('body')
+                        .show()
+                    ;
+                    return;
+                };
+                chatWindow.show();
+            };
+        };
+    };
+    kmpp.page.on('update.xmpp.roster.refresh', function(){
+        var roster = JSON.parse(localStorage.getItem('roster'));
+
+        $('.contact-list').empty();
+        for(var jid in roster){
+            $('.contact-list').append(
+                $('<div>')
+                    .addClass('roster-item')
+                    .attr('data-jid', jid)
+                    .append(
+                        $('<div>').text(roster[jid].name)
+                            .addClass('title')
+                    )
+                    .append($('<div>').text(jid).addClass('subtitle'))
+                    .click(generateOnRosterItemClick(jid))
+            );
+        };
+    });
+};
+
+//////////////////////////////////////////////////////////////////////////////
+
 require([
     'jquery',
     'kmpp',
@@ -70,5 +120,6 @@ require([
     kmpp.page.emit('command.xmpp.existence');
 
     bindStatusDisplay(kmpp);
+    bindRosterDisplay(kmpp);
 
 }); });
