@@ -1,15 +1,27 @@
 /* Index file */
 
-.right-fixed {
+.top-fixed {
     position: fixed;
-    right: 0px;
     top: 0px;
-    height: 100%;
-    width: 30%;
+    height: 3em;
+    width: 100%;
     background-color: #040689;
 }
 
+.right-fixed {
+    position: fixed;
+    top: 3em;
+    right: 0px;
+    width: 20%;
+    height: 100%;
+    border-color: #000000;
+    border-style: solid;
+    border-width: 0px 0px 0px 1px;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+}
+
 .main-stream {
+    margin-top: 3em;
     width: 70%;
     padding: 2em;
 }
