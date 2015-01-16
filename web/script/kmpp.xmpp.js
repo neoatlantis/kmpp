@@ -40,22 +40,30 @@ function xmpp(){
         return currentConnectionStatus;
     };
 
+    this.util = {};
+
+    this.util.normalizeJID = function(v){
+        var t = /^(.+@[0-9a-z\-_\.]+)(\/.+)?$/i.exec(v);
+        if(t) return t[1];
+        return null;
+    };
+
     this.login = function(username, password){
         console.log('Login to [' + username + ']');
         connection.connect(username, password, function(statusCode, err){
             currentConnectionStatus = statusCode;
             switch(statusCode){
                 case Strophe.Status.CONNECTING:
-                    kp.emit('update.xmpp.connecting');
+                    kp.emit('update.xmpp.connection.connecting');
                     break;
                 case Strophe.Status.CONNFAIL:
-                    kp.emit('update.xmpp.connfail');
+                    kp.emit('update.xmpp.connection.connfail');
                     break;
                 case Strophe.Status.AUTHENTICATING:
-                    kp.emit('update.xmpp.authenticating');
+                    kp.emit('update.xmpp.connection.authenticating');
                     break;
                 case Strophe.Status.AUTHFAIL:
-                    kp.emit('update.xmpp.authfail');
+                    kp.emit('update.xmpp.connection.authfail');
                     break;
                 case Strophe.Status.CONNECTED:
                     believedCredential = {
@@ -63,20 +71,20 @@ function xmpp(){
                         password: password,
                     };
                     autoReconnectCounter = 0;
-                    kp.emit('update.xmpp.connected');
+                    kp.emit('update.xmpp.connection.connected');
                     break;
                 case Strophe.Status.DISCONNECTED:
-                    kp.emit('update.xmpp.disconnected');
+                    kp.emit('update.xmpp.connection.disconnected');
                     break;
                 case Strophe.Status.DISCONNECTING:
-                    kp.emit('update.xmpp.disconnecting');
+                    kp.emit('update.xmpp.connection.disconnecting');
                     break;
                 case Strophe.Status.ATTACHED:
-                    kp.emit('update.xmpp.attached');
+                    kp.emit('update.xmpp.connection.attached');
                     break;
                 case Strophe.Status.ERROR:
                 default:
-                    kp.emit('update.xmpp.error');
+                    kp.emit('update.xmpp.connection.error');
                     break;
             };
         });
@@ -113,7 +121,7 @@ function xmpp(){
     };
 
     // auto reconnect for at most autoReconnectMax times
-    kp.on('update.xmpp.disconnected', function(){
+    kp.on('update.xmpp.connection.disconnected', function(){
         if(autoReconnectCounter >= autoReconnectMax) return;
         if(false === believedCredential) return;
         console.log('(' + (autoReconnectCounter + 1) + '/' + autoReconnectMax + ') Reconnect retry.');

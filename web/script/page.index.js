@@ -35,7 +35,7 @@ function bindStatusDisplay(kmpp){
         'error'
     ];
     for(var i in list)
-        kmpp.page.on('update.xmpp.' + list[i], getCallback(list[i]));
+        kmpp.page.on('update.xmpp.connection.' + list[i], getCallback(list[i]));
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -57,8 +57,7 @@ require([
         if(xmppExisted) return;
         new startXMPPConnector(kmpp);
         kmpp.page.emit('command.xmpp.login');
-        kmpp.page.hashtag('');
-    }, 10);
+    }, 20);
     kmpp.page.emit('command.xmpp.existence');
 
     bindStatusDisplay(kmpp);

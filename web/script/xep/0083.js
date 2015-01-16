@@ -7,24 +7,48 @@
 define(['jquery'], function($){ return function(xmpp, page){
     var self = this;
 
-    function bindHandler(){
+    var delimiter = '::';
+
+    function retrieveDelimiter(){
+        xmpp.once({
+            ns: Strophe.NS.PRIVATE,
+            id: '00831',
+        }, function(s){
+            var got = s.find('roster').text();
+            if('' !== got) delimiter = got;
+            retrieveRoster();
+        });
+        xmpp.send(
+            $build('iq', {type: 'get', id: '00831'})
+                .c('query', {xmlns: Strophe.NS.PRIVATE})
+        );
+    };
+
+    function retrieveRoster(){
         xmpp.once({
             'ns': Strophe.NS.ROSTER,
         }, function(s){
+            var roster = {};
             s.find('item').each(function(){
-                console.log($(this).attr('jid'));
+                var jid = xmpp.util.normalizeJID($(this).attr('jid'));
+                if(!jid) return;
+                roster[jid] = {};
+
+                var group = $(this).find('group').text();
+                if(group) roster[jid].group = group;
             });
+            localStorage.setItem('roster', roster);
+            page.emit('update.xmpp.roster.refresh');
         });
+
+        xmpp.send(
+            $build('iq', {type: 'get', id: '00832'})
+                .c('query', {xmlns: Strophe.NS.ROSTER})
+        );
+        console.log('XEP-0083: Retrieve roster.');
     };
 
-    page.on('update.xmpp.connected', function(){
-        var s = $build('iq', {type: 'get', id: '0083'})
-            .c('query', {xmlns: Strophe.NS.ROSTER}).up()
-        ;
-        console.log('XEP-0083: Retrieve roster.');
-        xmpp.send(s);
-        bindHandler();
-    });
+    page.on('update.xmpp.connection.connected', retrieveDelimiter);
 
     return this;
 }; });
