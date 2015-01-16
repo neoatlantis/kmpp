@@ -1,5 +1,6 @@
-function startXMPPConnector(kmpp){
-    var xmpp = new kmpp.xmpp();
+function startLocomotive(kmpp){
+    var xmpp = new kmpp.xmpp(),
+        microblog = new kmpp.microblog(xmpp);
 
     kmpp.page.on('command.xmpp.login', function(){
         xmpp.login(
@@ -10,6 +11,14 @@ function startXMPPConnector(kmpp){
 
     kmpp.page.on('command.xmpp.existence', function(){
         kmpp.page.emit('answer.xmpp.existence');
+    });
+
+    // test
+    kmpp.page.on('update.xmpp.connection.connected', function(){
+        /*kmpp.page.emit('command.microblog.publish', {
+            to: 'neoatlantis@wtfismyip.com',
+            text: 'test',
+        });*/
     });
 };
 
@@ -55,7 +64,7 @@ require([
     });
     setTimeout(function(){
         if(xmppExisted) return;
-        new startXMPPConnector(kmpp);
+        new startLocomotive(kmpp);
         kmpp.page.emit('command.xmpp.login');
     }, 20);
     kmpp.page.emit('command.xmpp.existence');

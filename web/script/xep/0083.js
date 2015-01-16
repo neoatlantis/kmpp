@@ -7,7 +7,7 @@
 define(['jquery'], function($){ return function(xmpp, page){
     var self = this;
 
-    var delimiter = '::';
+    var delimiter = false;
 
     function retrieveDelimiter(){
         xmpp.once({
@@ -35,9 +35,13 @@ define(['jquery'], function($){ return function(xmpp, page){
                 roster[jid] = {};
 
                 var group = $(this).find('group').text();
-                if(group) roster[jid].group = group;
+                if(group){
+                    roster[jid].group = group;
+                    if(delimiter)
+                        roster[jid].groupSplit = group.spit(delimiter);
+                };
             });
-            localStorage.setItem('roster', roster);
+            localStorage.setItem('roster', JSON.stringify(roster));
             page.emit('update.xmpp.roster.refresh');
         });
 
@@ -47,6 +51,8 @@ define(['jquery'], function($){ return function(xmpp, page){
         );
         console.log('XEP-0083: Retrieve roster.');
     };
+
+    page.on('command.xmpp.roster.refresh', retrieveRoster);
 
     page.on('update.xmpp.connection.connected', retrieveDelimiter);
 

@@ -5,6 +5,8 @@ define([
 ){
 //////////////////////////////////////////////////////////////////////////////
 
+var onCallbacks = {}, onceCallbacks = {};
+
 function page(){
     var self = this;
 
@@ -23,7 +25,6 @@ function page(){
     //------------------------------------------------------------------//
     // broadcasting system
 
-    var onCallbacks = {}, onceCallbacks = {};
     var lastStorageEventID = null;
     var pageIdentifyID = String(Math.random()), pageEventCounter = 0;
     function onStorage(){
