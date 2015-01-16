@@ -21,17 +21,20 @@ function microblog(xmpp){
         ;
     };
 
+    function readStanza(s){
+        var child = s.find('[xmlns="' + kmppConstants.NS.MICROBLOG + '"]');
+        if(child.length < 1) return;
+        var encrypted = ('true' == child.attr('encrypted').toLowerCase());
+        var text = child.text().trim();
+        // TODO more
+    };
+
     
     kp.on('command.microblog.publish', function(argv){
         xmpp.send(buildStanza(argv.to, argv.text));
     });
 
-    xmpp.on({
-        ns: kmppConstants.NS.MICROBLOG,
-    }, function(s){
-        
-    });
-
+    xmpp.on({ name: 'message', }, readStanza);
 
     return this;
 };

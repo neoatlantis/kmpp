@@ -29,25 +29,28 @@ Your browser does not support JavaScript or it's been disabled.
 JavaScript is critical to this application. Please enable it.
 </div>
 <div id="js-display">
-
-
     <div class="right-fixed">
         <div class="connection-status">
-            <div id="status-connecting" class="status-text"></div>
-            <div id="status-connfail" class="status-text"></div>
-            <div id="status-authenticating" class="status-text"></div>
-            <div id="status-authfail" class="status-text"></div>
-            <div id="status-connected" class="status-text"></div>
-            <div id="status-disconnected" class="status-text"></div>
-            <div id="status-disconnecting" class="status-text"></div>
-            <div id="status-attached" class="status-text"></div>
-            <div id="status-error" class="status-text"></div>
+            <span class="status-label">Status</span>
+            <span id="status-connecting" class="status-text">Connecting...</span>
+            <span id="status-connfail" class="status-text">Connection Failed</span>
+            <span id="status-authenticating" class="status-text">Authenticating...</span>
+            <span id="status-authfail" class="status-text">Authentication Failed</span>
+            <span id="status-connected" class="status-text">Connected</span>
+            <span id="status-disconnected" class="status-text">Disconnected</span>
+            <span id="status-disconnecting" class="status-text">Disconnecting...</span>
+            <span id="status-attached" class="status-text">Attached</span>
+            <span id="status-error" class="status-text">Error</span>
         </div>
         <div class="contact-list">
         </div>
     </div>
 
-
+    <div class="main-stream">
+        <div class="publish-box">
+            What am I thinking...
+        </div>
+    </div>
 </div>
 <script>
     document.getElementById('nojs-display').style.display = "none";

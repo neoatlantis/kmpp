@@ -9,6 +9,25 @@
     background-color: #040689;
 }
 
+.main-stream {
+    width: 70%;
+    padding: 2em;
+}
+
+.status-label {
+    font-weight: bold;
+}
+
+.status-text {
+    display: none;
+}
+
+.connection-status {
+    color: #FFFFFF;
+    border: #FFFFFF 1px solid;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    margin: 0.5em;
+}
 
 
 /****************************************************************************/
