@@ -8,7 +8,7 @@ body{
 /****************************************************************************/
 
 .implicit-unsafe {
-    background-color: #FFBBBB;
+    background-color: #FFDDDD;
 }
 
 /****************************************************************************/
@@ -42,11 +42,13 @@ body{
     padding: 0px;
 }
 .chat-box .line{
-    height: 100%;
+    position: absolute;
     display: table-cell; vertical-align: middle;
     font-size: 0.8em;
     padding: 0px 0.5em 0px 0.5em;
 }
+.chat-box .top .line{ top: 0px; }
+.chat-box .bottom .line{ bottom: 0px; }
 
 .chat-box .top .buddyName{
     font-weight: bold;
