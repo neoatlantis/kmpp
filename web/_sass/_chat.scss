@@ -1,33 +1,77 @@
-.chat-box {
-    font-size: 0.8em;
+$chatbox_height: 10em;
+$chatbox_bar_height: 1.5em;
+
+body{
+    overflow: hidden;
+}
+
+/****************************************************************************/
+
+.implicit-unsafe {
+    background-color: #FFBBBB;
+}
+
+/****************************************************************************/
+
+.chat-box-container {
     position: absolute;
+    height: $chatbox_height;
     bottom: 0px;
-    width: 100%;
-}
-
-.chat-box textarea{
-    font-size: 1.0em;
-    resize: none;
-    border: none;
-    width: 100%;
-    margin: 0px 0;
-    padding:0px;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    height: 6em;
-}
-
-.chat-box .bottom,.top{
-    padding: 0.2em 0.5em 0.2em 0.5em;
+    left: 0px;
+    right: 0px;
     background-color: #040689;
+}
+
+.chat-box {
+    padding:$chatbox_bar_height 0;
+    position:absolute; top:0; bottom:0; left:0; right:0;
+}
+.chat-box textarea {
+    min-height:100%; 
+    border: none; 
+    width: 100%;
+    resize: none;
+    margin: 0px; padding: 0px;
+}
+.chat-box .top {margin-top:-$chatbox_bar_height; height:$chatbox_bar_height;}
+.chat-box .bottom {margin-bottom:-$chatbox_bar_height; height:$chatbox_bar_height;}
+.chat-box .top,.bottom {
     color: #FFFFFF;
+    line-height: $chatbox_bar_height;
 }
 
 .chat-box .top .buddyName{
     font-weight: bold;
 }
 
-body {
-    background-color: #00FF00;
+/****************************************************************************/
+
+/*
+.chat-history-container {
+    position:absolute; top:0; bottom:0; left:0; right:0;
+    overflow: hidden;
+}
+
+.chat-history {
+    position: absolute;
+    height:100%; 
+    border: none; 
+    width: 100%;
+    margin: 0px; padding: 0px;
+    overflow: scroll;
+}
+
+.chat-box-height {
+    height: $chatbox_height;
+    margin-bottom: -$chatbox_height;
+}
+*/
+
+.chat-history{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.chat-history-scroll{
+    position: relative;
 }
