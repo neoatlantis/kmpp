@@ -1,8 +1,31 @@
 .chat-box {
-    background-color: #060489;
+    font-size: 0.8em;
     position: absolute;
     bottom: 0px;
     width: 100%;
+}
+
+.chat-box textarea{
+    font-size: 1.0em;
+    resize: none;
+    border: none;
+    width: 100%;
+    margin: 0px 0;
+    padding:0px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    height: 6em;
+}
+
+.chat-box .bottom,.top{
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    background-color: #040689;
+    color: #FFFFFF;
+}
+
+.chat-box .top .buddyName{
+    font-weight: bold;
 }
 
 body {
