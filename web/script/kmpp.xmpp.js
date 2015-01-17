@@ -40,24 +40,6 @@ function xmpp(){
         return currentConnectionStatus;
     };
 
-    this.util = {};
-
-    this.util.normalizeJID = function(v){
-        var t = /^(.+@[0-9a-z\-_\.]+)(\/.+)?$/i.exec(v);
-        if(t) return t[1];
-        return null;
-    };
-
-    this.util.uniqueID = function(){
-        var alphabet = 
-            'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        var ret = '';
-        var len = 10, alen = alphabet.length;
-        for(var i=0; i<len; i++)
-            ret += alphabet[Math.floor(alen * Math.random())];
-        return ret;
-    };
-
     this.login = function(username, password){
         console.log('Login to [' + username + ']');
         connection.connect(username, password, function(statusCode, err){
@@ -176,16 +158,17 @@ function xmpp(){
     // send chat message
     kp.on('command.xmpp.send.chat', function(v){
         if(Strophe.Status.CONNECTED != self.getStatus())
-            return kp.emit('error.xmpp.send.chat');
+            return kp.emit('error.xmpp.send.chat', v);
         var to = v.to;
         var body = v.body;
+        var id = (v.receipt?v.receipt:self.util.uniqueID());
         var stanza = 
-            $build('message', {to: to, id: self.util.uniqueID(),})
-                .c('body').t(body)
+            $build('message', {to: to, id: id,})
+                .c('body').t(body).up()
         ;
+        if(v.receipt) stanza.c('request', {xmlns: 'urn:xmpp:receipts'}).up();
         self.send(stanza);
     });
-    console.log('listen on this');
 
 
     // load xeps
@@ -198,6 +181,22 @@ function xmpp(){
     return this;
 };
 
+
+xmpp.prototype.util = {};
+xmpp.prototype.util.normalizeJID = function(v){
+    var t = /^(.+@[0-9a-z\-_\.]+)(\/.+)?$/i.exec(v);
+    if(t) return t[1];
+    return null;
+};
+xmpp.prototype.util.uniqueID = function(){
+    var alphabet = 
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var ret = '';
+    var len = 10, alen = alphabet.length;
+    for(var i=0; i<len; i++)
+        ret += alphabet[Math.floor(alen * Math.random())];
+    return ret;
+};
 
 return xmpp;
 //////////////////////////////////////////////////////////////////////////////

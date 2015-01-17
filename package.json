@@ -1,0 +1,28 @@
+{
+  "name": "KMPP",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "node-xmpp-bosh": "^0.7.10",
+    "http-proxy": "^1.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://neoatlantis@github.com/neoatlantis/kmpp.git"
+  },
+  "author": "NeoAtlantis",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/neoatlantis/kmpp/issues"
+  },
+  "homepage": "https://github.com/neoatlantis/kmpp",
+  "dependencies": {
+    "node-xmpp-bosh": "0.7.*",
+    "node-persist": "0.0.*"
+  }
+}

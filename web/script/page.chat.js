@@ -27,11 +27,12 @@ function onResize(){
 
 function getCallbackOnSendMessage(kmpp, jid){
     return function(){
-        console.log('shot')
         var val = $('textarea[name="text"]').val();
+        var uid = kmpp.xmpp.prototype.util.uniqueID();
         kmpp.page.emit('command.xmpp.send.chat', {
             to: jid,
             body: val,
+            receipt: uid,
         });
     };
 };
