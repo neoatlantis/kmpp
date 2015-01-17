@@ -16,7 +16,7 @@ body{
 .chat-box-container {
     position: absolute;
     height: $chatbox_height;
-    bottom: 0px;
+    bottom: -1px;
     left: 0px;
     right: 0px;
     background-color: #040689;
@@ -33,11 +33,19 @@ body{
     resize: none;
     margin: 0px; padding: 0px;
 }
-.chat-box .top {margin-top:-$chatbox_bar_height; height:$chatbox_bar_height;}
-.chat-box .bottom {margin-bottom:-$chatbox_bar_height; height:$chatbox_bar_height;}
+.chat-box .top {margin-top:-$chatbox_bar_height;}
+.chat-box .bottom {margin-bottom:-$chatbox_bar_height;}
 .chat-box .top,.bottom {
     color: #FFFFFF;
     line-height: $chatbox_bar_height;
+    height: $chatbox_bar_height;
+    padding: 0px;
+}
+.chat-box .line{
+    height: 100%;
+    display: table-cell; vertical-align: middle;
+    font-size: 0.8em;
+    padding: 0px 0.5em 0px 0.5em;
 }
 
 .chat-box .top .buddyName{
@@ -46,27 +54,6 @@ body{
 
 /****************************************************************************/
 
-/*
-.chat-history-container {
-    position:absolute; top:0; bottom:0; left:0; right:0;
-    overflow: hidden;
-}
-
-.chat-history {
-    position: absolute;
-    height:100%; 
-    border: none; 
-    width: 100%;
-    margin: 0px; padding: 0px;
-    overflow: scroll;
-}
-
-.chat-box-height {
-    height: $chatbox_height;
-    margin-bottom: -$chatbox_height;
-}
-*/
-
 .chat-history{
     overflow-y: scroll;
     overflow-x: hidden;
@@ -74,4 +61,5 @@ body{
 
 .chat-history-scroll{
     position: relative;
+    padding: 0.5em;
 }
