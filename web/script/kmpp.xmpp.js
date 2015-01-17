@@ -48,6 +48,16 @@ function xmpp(){
         return null;
     };
 
+    this.util.uniqueID = function(){
+        var alphabet = 
+            'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        var ret = '';
+        var len = 10, alen = alphabet.length;
+        for(var i=0; i<len; i++)
+            ret += alphabet[Math.floor(alen * Math.random())];
+        return ret;
+    };
+
     this.login = function(username, password){
         console.log('Login to [' + username + ']');
         connection.connect(username, password, function(statusCode, err){
@@ -161,6 +171,22 @@ function xmpp(){
     kp.on('update.xmpp.connection.connected', function(){
         sendPresence();
     });
+
+
+    // send chat message
+    kp.on('command.xmpp.send.chat', function(v){
+        if(Strophe.Status.CONNECTED != self.getStatus())
+            return kp.emit('error.xmpp.send.chat');
+        var to = v.to;
+        var body = v.body;
+        var stanza = 
+            $build('message', {to: to, id: self.util.uniqueID(),})
+                .c('body').t(body)
+        ;
+        self.send(stanza);
+    });
+    console.log('listen on this');
+
 
     // load xeps
     var loadedXEPs = {};

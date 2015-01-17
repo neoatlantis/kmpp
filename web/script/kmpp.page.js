@@ -6,6 +6,7 @@ define([
 //////////////////////////////////////////////////////////////////////////////
 
 var onCallbacks = {}, onceCallbacks = {};
+var doneEvents = [];
 
 function page(){
     var self = this;
@@ -25,7 +26,6 @@ function page(){
     //------------------------------------------------------------------//
     // broadcasting system
 
-    var lastStorageEventID = null;
     var pageIdentifyID = String(Math.random()), pageEventCounter = 0;
     function onStorage(){
         try{
@@ -35,9 +35,10 @@ function page(){
         };
         
         var name = data.name, payload = data.data, eventID = data.id;
-        if(eventID === lastStorageEventID) return;
-        lastStorageEventID = eventID;
-        console.log('Received event [' + name + ']', payload);
+        if(doneEvents.indexOf(eventID) >= 0) return;
+        doneEvents.push(eventID);
+        while(doneEvents.length > 1000) doneEvents.shift();
+        console.log('Received event [' + name + '] id=' + eventID, payload);
 
         if(undefined !== onCallbacks[name])
             for(var i in onCallbacks[name]) onCallbacks[name][i](payload);

@@ -48,7 +48,16 @@ body{
     padding: 0px 0.5em 0px 0.5em;
 }
 .chat-box .top .line{ top: 0px; }
-.chat-box .bottom .line{ bottom: 0px; }
+.chat-box .bottom .line{ bottom: 0px;}
+.chat-box .send-message{
+    min-width: 15em;
+    position: absolute;
+    right: 1px;
+    bottom: 2px;
+    border: #040689 1px solid;
+    font-size: 0.8em;
+    background-color: #AAAAFF;
+}
 
 .chat-box .top .buddyName{
     font-weight: bold;

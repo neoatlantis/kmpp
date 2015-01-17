@@ -25,6 +25,17 @@ function onResize(){
     ;
 };
 
+function getCallbackOnSendMessage(kmpp, jid){
+    return function(){
+        console.log('shot')
+        var val = $('textarea[name="text"]').val();
+        kmpp.page.emit('command.xmpp.send.chat', {
+            to: jid,
+            body: val,
+        });
+    };
+};
+
 //////////////////////////////////////////////////////////////////////////////
 
 require([
@@ -45,4 +56,11 @@ require([
     onRosterRefresh();
 
     changePageSafetyImplication(false);
+
+    var onSendMessage = getCallbackOnSendMessage(kmpp, buddyJID);
+    $('.send-message').click(onSendMessage);
+    $('textarea[name="text"]').on('keypress', function(e){
+        if(e.ctrlKey && 13 == e.keyCode) onSendMessage();
+    });
+
 }); });
