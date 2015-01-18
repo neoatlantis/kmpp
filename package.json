@@ -23,6 +23,6 @@
   "homepage": "https://github.com/neoatlantis/kmpp",
   "dependencies": {
     "node-xmpp-bosh": "0.7.*",
-    "node-persist": "0.0.*"
+    "node-localstorage": "0.2.*"
   }
 }
