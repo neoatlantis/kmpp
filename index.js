@@ -14,9 +14,14 @@ var boshServer = bosh.start_bosh();
 var wsServer = bosh.start_websocket(boshServer);
 
 var httpServer = http.createServer(function(req, res){
-
     var requrl = url.parse(req.url);
     var pathname = requrl.pathname;
+    req._ = {};
+    req._.pathname = pathname;
+
+    if('/storage/' == pathname.slice(0, 9))
+        return require('./lib/storage.js').httpHandler(req, res);
+
     if(pathname.slice(-1) == '/') pathname += 'index.html';
     fs.readFile(
         './web/_site' + pathname, // TODO security risk
