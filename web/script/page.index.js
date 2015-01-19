@@ -1,5 +1,6 @@
 function startLocomotive(kmpp){
-    var xmpp = new kmpp.xmpp(),
+    var xmpp = new kmpp.xmpp();
+    var queue = new kmpp.queue(xmpp),
         microblog = new kmpp.microblog(xmpp);
 
     kmpp.page.on('command.xmpp.login', function(){
